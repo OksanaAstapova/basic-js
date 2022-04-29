@@ -12,17 +12,16 @@ const { NotImplementedError } = require('../extensions/index.js');
  */
 function encodeLine(string) {
   
-  let encodeStr = " ";
+  let encodeStr = "";
   let quantity = 1;
 
   for (let i = 0; i < string.length; i++) {
     if (string[i] === string[i + 1]){
       quantity++;
-      encodeStr += quantity + string[i];
-
-    } else {
+      
+    } else if(string[i] !== string[i + 1] || string[i] !== string[i - 1]){
+      encodeStr += (quantity === 1) ? string[i] : quantity + string[i];
       quantity = 1;
-    encodeStr += quantity + string[i];
 
     }
 
