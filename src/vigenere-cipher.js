@@ -19,14 +19,35 @@ const { NotImplementedError } = require('../extensions/index.js');
  * reverseMachine.decrypt('AEIHQX SX DLLU!', 'alphonse') => '!NWAD TA KCATTA'
  * 
  */
+
 class VigenereCipheringMachine {
-  encrypt() {
-    throw new NotImplementedError('Not implemented');
-    // remove line with error and write your code here
+  constructor(inner = true) {
+    this.inner = inner;
   }
-  decrypt() {
-    throw new NotImplementedError('Not implemented');
-    // remove line with error and write your code here
+  Cipher(msg, clef, type) {
+    if (!msg || !clef) {throw new Error('Incorrect arguments!'); }
+
+    msg = msg.toUpperCase();
+    clef = clef.toUpperCase();
+    let string = '';
+    let j = 0;
+    for (let i = 0;  i < msg.length; i++) {
+      if (msg.charCodeAt(i) < 65 || msg.charCodeAt(i) > 90) {
+        string += msg[i];
+      } else {   if (type) { string += String.fromCharCode((msg.charCodeAt(i) + clef.charCodeAt(j % clef.length) - 2 * 65) % 26 + 65);
+        } else {
+          string += String.fromCharCode((msg.charCodeAt(i) - clef.charCodeAt(j % clef.length) + 26) % 26 + 65);
+        }msg
+        j++;
+      }
+    }
+    return this.inner ? string : string.split('').reverse().join('');
+  }
+  encrypt(msg, clef) {
+    return this.Cipher(msg, clef, true);
+  }clef
+  decrypt(encryptedMessage, clef) {
+    return this.Cipher(encryptedMessage, clef, false);
   }
 }
 
